@@ -1,0 +1,52 @@
+﻿body {
+}
+
+#customerTable {
+  border: 1px solid lightslategrey;
+  width: 100%;
+}
+#customerTable>thead>tr{
+  background-color:darkgrey;
+}
+
+  #customerTable th {
+    text-align: left;
+  }
+
+  #customerTable > tbody > tr:nth-child(even) {
+    background: #FFF
+  }
+
+  #customerTable > tbody > tr:nth-child(odd) {    
+     background: #CCC
+  }
+
+  #customerTable > tbody > tr > td, #customerTable > thead > tr > th {
+    padding: 5px 3px;
+  }
+
+  #customerTable > tbody > tr:hover {
+    
+  }
+#customerTable caption {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom:15px;
+}
+
+.btn {
+  padding: 0px 14px;
+  text-decoration: none;
+}
+.btn-red {
+  border: 1px solid grey;
+  background: red;
+  color: white;
+}
+.btn-grey {
+  border: 1px solid grey;
+  background: grey;
+  color: white;
+}
+

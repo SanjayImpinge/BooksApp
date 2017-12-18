@@ -1,0 +1,30 @@
+﻿<table id="customerTable" cellspacing="0" cellpadding="0">
+  <caption>Books
+  <a href="/addbook" class="btn btn-red">+Add New</a>
+  </caption>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>author</th>
+      <th>pages</th>
+      <th>dateofpublication</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of books">
+      <td>{{book.id}}</td>
+      <td>{{book.name}}</td>
+      <td>{{book.author}}</td>
+      <td>{{book.pages}}</td>
+      <td>{{book.dateofpublication}}</td>
+      <th>
+        <a href="/editBook/{{book.id}}" class="btn btn-grey">Edit</a>
+        <a (click)="delete(book.id)" href="javascript:void(0);" class="btn btn-red">Delete</a>
+      </th>
+    </tr>
+  </tbody>
+</table>
+<div id="pagination">
+</div>
