@@ -8,6 +8,8 @@ import { BooksComponent } from './components/book/book';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'books', pathMatch: 'full' },
@@ -30,7 +32,9 @@ const appRoutes: Routes = [
         HttpModule,
         RouterModule.forRoot(appRoutes//,
             //{ enableTracing: true } // <-- debugging purposes only
-        )
+        ),
+        NgxPaginationModule,
+        Ng2OrderModule
     ],
     providers: [],
     bootstrap: [AppComponent]

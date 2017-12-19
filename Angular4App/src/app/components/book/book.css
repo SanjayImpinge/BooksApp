@@ -1,6 +1,8 @@
 ﻿body {
 }
-
+thead > tr > th {
+  cursor: pointer;
+}
 #customerTable {
   border: 1px solid lightslategrey;
   width: 100%;

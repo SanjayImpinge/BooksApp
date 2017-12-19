@@ -37,10 +37,19 @@ namespace WebAPI.Controllers
         }
 
         [Route("GetCustomers")]
-        [HttpGet]
-        public IEnumerable<object> GetCustomers()
+        [HttpPost]
+        public IHttpActionResult GetCustomers(PagedModel model)
         {
-            return books;
+            PagedResponse<List<Book>> pagedData = new PagedResponse<List<Book>>();
+            pagedData.Total = books.Count();
+            double pageCount = (double)(pagedData.Total / model.ItemsPerPage);
+            pagedData.NumberOfPages = (int)Math.Ceiling(pageCount);
+
+            int pageToSkip = (model.PageNumber - 1) * model.ItemsPerPage;
+
+            pagedData.Data = books.Skip(pageToSkip).Take(model.ItemsPerPage).ToList();
+
+            return Ok(pagedData);
         }
 
         [Route("GetCustomer/{id}")]
@@ -95,3 +104,16 @@ public class Book
     public string pages { get; set; }
     public string dateofpublication { get; set; }
 }
+
+public class PagedResponse<T>
+{
+    public int Total { get; set; }
+    public int NumberOfPages { get; set; }
+    public T Data { get; set; }
+}
+public class PagedModel
+{
+    public int PageNumber { get; set; }
+    public int ItemsPerPage { get; set; }
+}
+

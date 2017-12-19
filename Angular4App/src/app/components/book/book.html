@@ -5,7 +5,9 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th>Name</th>
+      <th (click)="sort('name')">Name
+        <span class="glyphicon sort-icon" *ngIf="key =='name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+      </th>
       <th>author</th>
       <th>pages</th>
       <th>dateofpublication</th>
@@ -13,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let book of books">
+    <tr *ngFor="let book of books |  orderBy: key : reverse | paginate: { itemsPerPage: itemPerPage, currentPage: p, totalItems: total };">
       <td>{{book.id}}</td>
       <td>{{book.name}}</td>
       <td>{{book.author}}</td>
@@ -25,6 +27,12 @@
       </th>
     </tr>
   </tbody>
+  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
 </table>
-<div id="pagination">
-</div>
+<!--<my-pagination (goPage)="goToPage($event)"
+               (goNext)="onNext()"
+               (goPrev)="onPrev()"
+               [pagesToShow]="3"
+               [page]="page"
+               [perPage]="limit"
+               [count]="total"></my-pagination>-->
