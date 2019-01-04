@@ -1,4 +1,4 @@
-﻿body {
+body {
 }
 thead > tr > th {
   cursor: pointer;
@@ -51,4 +51,59 @@ thead > tr > th {
   background: grey;
   color: white;
 }
-
+#customerTable{
+  border:1px solid #cacaca;
+}
+#customerTable[_ngcontent-c1] > tbody[_ngcontent-c1] > tr[_ngcontent-c1] > td[_ngcontent-c1],
+#customerTable[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1] {
+  padding: 10px 15px;
+}
+#customerTable[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1]{
+  text-transform:capitalize;
+}
+#customerTable[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] {
+  background: #d7d7d7;
+}
+#customerTable[_ngcontent-c1] > tbody[_ngcontent-c1] > tr[_ngcontent-c1]:nth-child(odd) {
+  background: #eee;
+}
+#customerTable[_ngcontent-c1] > tbody[_ngcontent-c1] > tr[_ngcontent-c1] > td[_ngcontent-c1] a.btn.btn-red,
+#customerTable[_ngcontent-c1] caption[_ngcontent-c1] a.btn.btn-red {
+  background: #ccc;
+  border: 1px solid #cacaca;
+  color: #4c4c4c;
+}
+#customerTable[_ngcontent-c1] caption[_ngcontent-c1]{
+  text-align:center;
+}
+.book-detail {
+  display: inline-block;
+  width: 100%;
+  background: #eaeaea;
+  padding: 30px;
+  border: 1px solid #ddd;
+}
+.book-detail h3 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.book-detail table tr td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+  text-transform: capitalize;
+}
+.book-detail table tr td a.btn.btn-grey,
+.book-detail table tr td button#cancel,
+.book-detail table tr td input[type="submit"]{
+  padding: 5px 30px;
+  border: 1px solid grey;
+  background: grey;
+  color: white;
+  border-radius: .25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  display: inline-block;
+  font-weight: 400;
+  vertical-align: middle;
+}

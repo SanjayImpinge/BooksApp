@@ -1,23 +1,23 @@
-﻿import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, FormArray, NgForm } from '@angular/forms';
-
-
-import { CustomerModel } from '../../models/customer.model'
 import 'rxjs/add/operator/map'
+import {Router} from '@angular/router'
 import { AppSettings } from '../../constants/appsettings';
 import { BookModel } from "../../models/bookmodel";
+import { IMyDpOptions } from 'angular4-datepicker/src/my-date-picker/interfaces';
 
 @Injectable()
 
 @Component({
   selector: 'app-root',
-  templateUrl: './editbook.html'
+  templateUrl: './editbook.html',
+  styleUrls: ['./book.css']
 })
 export class EditBooksComponent implements OnInit {
 
-  constructor(private _httpService: Http, private route: ActivatedRoute) { }
+  constructor(private _httpService: Http, private route: ActivatedRoute, private router: Router) { }
 
   private title: string = "";
   private id: number;
@@ -27,24 +27,58 @@ export class EditBooksComponent implements OnInit {
 
   private myForm: FormGroup;
 
+  dropdownList: any = [];
+  selectedItems : any=[];
+  dropdownSettings: any;
+  date: any = { date: { year: 2018, month: 10, day: 9 } };
 
+  public myDatePickerOptions: IMyDpOptions = {
+    // other options...
+    dateFormat: 'mm-dd-yyyy',
+  };
+ 
+  onItemSelect(item):any {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect(item): any{
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  onSelectAll(items): any {
+    console.log(items);
+  }
+  onDeSelectAll(items: any) {
+    console.log(items);
+  }
   ngOnInit() {
+
+      this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Authors",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      classes: "myclass custom-class"
+    };
     this.myForm = new FormGroup({
       'name': new FormControl(),
       'author': new FormControl(),//,
       'pages': new FormControl(),
+      'authors':new FormControl(),
       'dateofpublication': new FormControl()
-      //'location': new FormGroup({
-      //    'country': new FormControl(),
-      //    'city': new FormControl()
-      //}),
-      //'phoneNumbers': new FormArray([new FormControl('')])
     });
 
     this.sub = this.route.params.subscribe(params => {
       if (!params['id']) {
         this.isEdit = false;
         this.title = "Add Book";
+        var url = AppSettings.API_ENDPOINT + "/book/GetAuthors/";
+        this._httpService.get(url).subscribe(values => {
+          this.dropdownList = values.json();
+          console.log(values.json());
+       
+        });
       }
       else {
         this.id = +params['id'];
@@ -53,26 +87,41 @@ export class EditBooksComponent implements OnInit {
     });
 
     if (this.isEdit) {
-      var url = AppSettings.API_ENDPOINT + "/customer/GetCustomer/" + this.id;
+      var url = AppSettings.API_ENDPOINT + "/book/GetBook/" + this.id;
       this._httpService.get(url).subscribe(values => {
         this.book = values.json() as BookModel;
+
+        let date = new Date(this.book.dateofpublication);
+        
+        this.date = {
+            date: {
+              year: date.getFullYear(),
+              month: date.getMonth() + 1,
+              day: date.getDate()
+            }
+        }
+
+        console.log(this.book,'this.book')
+        this.dropdownList = this.book._author;
+        this.selectedItems = this.book.authorIds;
       });
     }
   }
 
   addOrUpdate(): void {
     let url = "";
-    if (this.isEdit) { url = AppSettings.API_ENDPOINT + "/customer/UpdateCustomer"; }
-    else { url = AppSettings.API_ENDPOINT + "/customer/AddCustomer"; }
+    console.log(this.selectedItems)
+    this.book.authorIds = this.selectedItems;
+    this.book.dateofpublication = this.date.date.month + '-' + this.date.date.day + '-' + this.date.date.year;
+    if (this.isEdit) { url = AppSettings.API_ENDPOINT + "/book/UpdateBook"; }
+    else { url = AppSettings.API_ENDPOINT + "/book/AddBook"; }
     this.add(url, this.book).subscribe(values => {
-      window.location.href = "/books";
+      this.router.navigate(['/books']);
     });
-    //this._httpService.post(url, JSON.stringify(this.customer), this.addHeaders()).subscribe(values => {
-    //  //window.location.href = "/customers";
-    //});
   }
 
   add(url: string, book: BookModel) {
+   console.log(this.selectedItems)
     return this._httpService.post(url, JSON.stringify(book), this.addHeaders())
       .map((response: any) => {
         return response;
@@ -88,6 +137,7 @@ export class EditBooksComponent implements OnInit {
   }
 
   cancelUpdate(): void {
-    window.location.href = "/books";
+   
+    this.router.navigate(['/']);
   }
 }

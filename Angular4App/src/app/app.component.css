@@ -1,4 +1,6 @@
-﻿#header {
-color:red;
+#header {
+  color: #666;
+  text-align: center;
+  padding: 20px 0;
+  text-transform: capitalize;
 }
-

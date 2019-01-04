@@ -1,7 +1,6 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
-import { CustomerModel } from '../../models/customer.model';
 import { AppSettings } from '../../constants/appsettings';
 import { BookModel } from "../../models/bookmodel";
 
@@ -14,7 +13,25 @@ export class BooksComponent implements OnInit {
 
     constructor(private _httpService: Http) { }
 
-    private books: BookModel[];
+  private books: BookModel[];
+  dropdownList: any;
+  selectedItems: any;
+  dropdownSettings: any;
+
+  onItemSelect(item): any {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect(item): any {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  onSelectAll(items): any {
+    console.log(items);
+  }
+  onDeSelectAll(items: any) {
+    console.log(items);
+  }
     ngOnInit() {
         this.getBooks();
     }
@@ -23,7 +40,7 @@ export class BooksComponent implements OnInit {
         var isConfirm = confirm("Are you sure?");
 
         if (isConfirm) {
-          this._httpService.post(AppSettings.API_ENDPOINT + '/customer/DeleteCustomer/' + id, {}).subscribe(values => {
+          this._httpService.post(AppSettings.API_ENDPOINT + '/book/DeleteBook/' + id, {}).subscribe(values => {
               let index = this.books.findIndex(x => x.id === id); //find index in your array
                 this.books.splice(index, 1);//remove element from array
             });
@@ -45,10 +62,11 @@ export class BooksComponent implements OnInit {
     }
     getBooks() {
         var dataToPost = JSON.stringify({ pageNumber: this.p, itemsPerPage: this.itemPerPage });
-        this._httpService.post(AppSettings.API_ENDPOINT + '/customer/GetCustomers', dataToPost, this.addHeaders()).subscribe(values => {
+        this._httpService.post(AppSettings.API_ENDPOINT + '/book/GetBooks', dataToPost, this.addHeaders()).subscribe(values => {
             var data = values.json();
             this.books = data.Data;
-            this.total = data.Total;
+          this.total = data.Total;
+          console.log(this.books)
         });
     }
 

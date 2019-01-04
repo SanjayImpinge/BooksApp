@@ -1,38 +1,52 @@
-﻿<h3>{{title}}</h3>
-<form #myForm="ngForm" (ngSubmit)="addOrUpdate()" novalidate>
-  <table>
-    <tr *ngIf="isEdit">
-      <th>Id</th>
-      <td>{{book.id}}</td>
-    </tr>
-    <tr>
-      <th>Name*</th>
-      <td>
-        <input type="text" name="name" [(ngModel)]="book.name" required />
-        <!--<div *ngIf="name.invalid && (name.dirty || name.touched)"
-             class="alert alert-danger">
-          <div *ngIf="name.errors.required">Name is required.</div>
-        </div>-->
-      </td>
-    </tr>
-    <tr>
-      <th>author</th>
-      <td><input type="text" name="author" [(ngModel)]="book.author" /></td>
-    </tr>
-    <tr>
-      <th>pages</th>
-      <td><input type="text" name="pages" [(ngModel)]="book.pages" /></td>
-    </tr>
-    <tr>
-      <th>date of publication</th>
-      <td><input type="text" name="dateofpublication" [(ngModel)]="book.dateofpublication" /></td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>
-        <input [disabled]="!myForm.valid" type="submit" value="submit" />
-        <button id="cancel" (click)="cancelUpdate()">Cancel</button>
-      </td>
-    </tr>
-  </table>
-</form>
+<div class="book-detail">
+  <h3>{{title}}</h3>
+  <form #myForm="ngForm" (ngSubmit)="addOrUpdate()" novalidate>
+    <table  width="600px" cellpadding="0" cellspacing="0" border="0" align="center" bgcolor="#fff">
+      <tr *ngIf="isEdit">
+        <td><strong>Id</strong></td>
+        <td>{{book.id}}</td>
+      </tr>
+      <tr>
+        <td><strong>Name*</strong></td>
+        <td>
+          <input type="text" name="name" [(ngModel)]="book.name" required />
+          <!--<div *ngIf="name.invalid && (name.dirty || name.touched)"
+               class="alert alert-danger">
+            <div *ngIf="name.errors.required">Name is required.</div>
+          </div>-->
+        </td>
+      </tr>
+      <tr>
+        <td><strong>author</strong></td>
+        <td>
+                 <angular4-multiselect name="authors" [data]="dropdownList" [(ngModel)]="selectedItems" *ngIf="selectedItems"
+                                [settings]="dropdownSettings"
+                                (onSelect)="onItemSelect($event)"
+                                (onDeSelect)="OnItemDeSelect($event)"
+                                (onSelectAll)="onSelectAll($event)"
+                                (onDeSelectAll)="onDeSelectAll($event)"></angular4-multiselect>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>pages</strong></td>
+        <td><input type="text" name="pages" [(ngModel)]="book.pages" /></td>
+      </tr>
+      <tr>
+        <td><strong>date of publication</strong></td>
+        <td>
+        
+          <my-date-picker name="dateofpublication" [options]="myDatePickerOptions"
+                          [(ngModel)]="date" required></my-date-picker>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input [disabled]="!myForm.valid" type="submit" value="Submit" />
+          <button id="cancel" (click)="cancelUpdate()">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+</div>

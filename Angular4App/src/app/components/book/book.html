@@ -1,11 +1,12 @@
-﻿<table id="customerTable" cellspacing="0" cellpadding="0">
-  <caption>Books
-  <a href="/addbook" class="btn btn-red">+Add New</a>
+<table id="customerTable" cellspacing="0" cellpadding="0">
+  <caption>
+    <a [routerLink]="['/addbook']" class="btn btn-red">+Add New</a>
   </caption>
   <thead>
     <tr>
       <th>Id</th>
-      <th (click)="sort('name')">Name
+      <th (click)="sort('name')">
+        Name
         <span class="glyphicon sort-icon" *ngIf="key =='name'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
       </th>
       <th>author</th>
@@ -18,21 +19,27 @@
     <tr *ngFor="let book of books |  orderBy: key : reverse | paginate: { itemsPerPage: itemPerPage, currentPage: p, totalItems: total };">
       <td>{{book.id}}</td>
       <td>{{book.name}}</td>
-      <td>{{book.author}}</td>
+      <td>
+        <span *ngFor="let author of book.authorIds; let i=index">{{author.itemName}} {{  book.authorIds.length-1==i ? '' : ',' }} </span>
+        <!--<angular4-multiselect name="authors" [data]="book._author" [(ngModel)]="book.authorIds"
+                        [settings]="dropdownSettings"
+                        (onSelect)="onItemSelect($event)"
+                        (onDeSelect)="OnItemDeSelect($event)"
+                        (onSelectAll)="onSelectAll($event)"
+                        (onDeSelectAll)="onDeSelectAll($event)" disabled="true"></angular4-multiselect>-->
+      </td>
       <td>{{book.pages}}</td>
       <td>{{book.dateofpublication}}</td>
-      <th>
-        <a href="/editBook/{{book.id}}" class="btn btn-grey">Edit</a>
+      <td>
+        <a [routerLink]="['/detailBook/'+book.id]" class="btn btn-grey">Detail</a>
         <a (click)="delete(book.id)" href="javascript:void(0);" class="btn btn-red">Delete</a>
-      </th>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" align="center">
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+      </td>
     </tr>
   </tbody>
-  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
 </table>
-<!--<my-pagination (goPage)="goToPage($event)"
-               (goNext)="onNext()"
-               (goPrev)="onPrev()"
-               [pagesToShow]="3"
-               [page]="page"
-               [perPage]="limit"
-               [count]="total"></my-pagination>-->
+
